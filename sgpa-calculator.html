@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGPA Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface2: #f2f2f0;
+    --border: rgba(0,0,0,0.08);
+    --border-md: rgba(0,0,0,0.14);
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --text-faint: #9e9e9e;
+    --blue: #185FA5;
+    --blue-light: #e6f1fb;
+    --blue-mid: #378add;
+    --green: #2d7a3a;
+    --green-light: #eaf3de;
+    --red: #a32d2d;
+    --red-light: #fcebeb;
+    --amber: #8a5e0a;
+    --amber-light: #fdf3de;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-left h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  /* ── Group Toggle ── */
+  .group-toggle {
+    display: flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .group-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.18s ease;
+  }
+
+  .group-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  }
+
+  /* ── Metric Cards ── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.25rem;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .metric-value {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .metric-value.accent { color: var(--blue); }
+
+  /* ── Table ── */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border-md);
+  }
+
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tbody tr:hover { background: #fafaf9; }
+
+  .subj-name {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .subj-meta {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .supp-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: var(--amber-light);
+    color: var(--amber);
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: .03em;
+  }
+
+  .yoga-row { opacity: 0.55; }
+
+  /* ── Inputs ── */
+  input[type=number] {
+    width: 72px;
+    padding: 6px 8px;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--surface);
+    text-align: center;
+    transition: border-color .15s;
+    -moz-appearance: textfield;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  input[type=number]:focus {
+    outline: none;
+    border-color: var(--blue-mid);
+    box-shadow: 0 0 0 3px rgba(55,138,221,0.12);
+  }
+
+  /* ── Range Slider ── */
+  .see-cell { display: flex; align-items: center; gap: 8px; }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+    cursor: pointer;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+    cursor: pointer;
+  }
+
+  /* ── Score Badge ── */
+  .score-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--blue-light);
+    color: var(--blue);
+    min-width: 80px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .score-badge.fail { background: var(--red-light); color: var(--red); }
+  .score-badge.na   { background: var(--surface2); color: var(--text-faint); }
+  .score-badge.pass { background: var(--green-light); color: var(--green); }
+
+  .no-see-text {
+    font-size: 11px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+
+  .na-text {
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  /* ── Chart ── */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+
+  .chart-card-header { margin-bottom: 1.25rem; }
+
+  .chart-card-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .chart-card-header p {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    th:nth-child(2), td:nth-child(2),
+    th:nth-child(3), td:nth-child(3) { display: none; }
+    input[type=range] { width: 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>SGPA Calculator</h1>
+      <p>Semester Grade Point Average — enter your marks to calculate your result</p>
+    </div>
+    <div class="group-toggle">
+      <button class="group-btn active" id="btn1" onclick="setGroup(1)">Group 1 &nbsp;·&nbsp; Physics, Electrical, etc.</button>
+      <button class="group-btn" id="btn2" onclick="setGroup(2)">Group 2 &nbsp;·&nbsp; Statistics, Contemporary, etc.</button>
+    </div>
+  </div>
+
+  <!-- Metric Banner -->
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">SGPA</div>
+      <div class="metric-value accent" id="sgpa-val">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Total Credits</div>
+      <div class="metric-value" id="credits-val">18</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Grade Points</div>
+      <div class="metric-value" id="gp-val">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Subjects Passing</div>
+      <div class="metric-value" id="pass-val">—</div>
+    </div>
+  </div>
+
+  <!-- Subject Table -->
+  <div class="table-wrap" id="table-wrap"></div>
+
+  <!-- Chart -->
+  <div class="chart-card">
+    <div class="chart-card-header">
+      <h2>SGPA vs Expected SEE Score</h2>
+      <p>How your SGPA shifts as average SEE marks scale from 0 → 100 (CE & LPW marks locked in from your inputs above)</p>
+    </div>
+    <canvas id="sgpaChart" height="240"></canvas>
+  </div>
+
+  <div class="footer">Built by Vaibhav Yadav· Grading scale: ≥90=10pts · ≥80=9pts · ≥70=8pts · ≥60=7pts · ≥50=6pts · &lt;50=0pts</div>
+</div>
+
+<script>
+const GROUPS = {
+  1: {
+    totalCredits: 18,
+    subjects: [
+      {id:'math1', name:'Mathematics I',         credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'phy',   name:'Physics',               credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'env',   name:'Environmental Science', credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'aiml',  name:'Introduction to AI & ML',credits:3,ce:.25, lpw:.25, see:.5},
+      {id:'elec',  name:'Electrical Science',    credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'geng',  name:'General English',       credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'yoga',  name:'Yoga',                  credits:0, ce:.5,  lpw:.5,  see:0, supplementary:true},
+    ]
+  },
+  2: {
+    totalCredits: 21,
+    subjects: [
+      {id:'math2', name:'Mathematics II',                       credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'chem',  name:'Chemistry / Intro to Web Programming', credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'draw',  name:'Engineering Drawing & Workshop',       credits:3, ce:.5,  lpw:.5,  see:0,  noSee:true},
+      {id:'wcom',  name:'Written Communication',                credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'aiml2', name:'Introduction to AI & ML',              credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'stat',  name:'Statistics',                           credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'ci',    name:'Contemporary India',                   credits:3, ce:.5,  lpw:0,   see:.5},
+    ]
+  }
+};
+
+let currentGroup = 1;
+let marks = {};
+let chart = null;
+
+function getPoints(score) {
+  if (score >= 90) return 10;
+  if (score >= 80) return 9;
+  if (score >= 70) return 8;
+  if (score >= 60) return 7;
+  if (score >= 50) return 6;
+  return 0;
+}
+
+function getFinal(subj) {
+  const ce  = parseFloat(marks[subj.id + '_ce'])  || 0;
+  const lpw = parseFloat(marks[subj.id + '_lpw']) || 0;
+  const see = parseFloat(marks[subj.id + '_see']) || 0;
+  return (ce * subj.ce) + (lpw * subj.lpw) + (see * subj.see);
+}
+
+function calcSGPA(subjects, totalCredits, globalSee) {
+  let totalGP = 0;
+  subjects.forEach(s => {
+    if (s.credits === 0) return;
+    const ce  = parseFloat(marks[s.id + '_ce'])  || 0;
+    const lpw = parseFloat(marks[s.id + '_lpw']) || 0;
+    const seeVal = s.noSee ? 0 : (globalSee !== undefined ? globalSee : (parseFloat(marks[s.id + '_see']) || 0));
+    const final = (ce * s.ce) + (lpw * s.lpw) + (seeVal * s.see);
+    totalGP += getPoints(final) * s.credits;
+  });
+  return totalCredits > 0 ? totalGP / totalCredits : 0;
+}
+
+function updateBanner() {
+  const g = GROUPS[currentGroup];
+  let totalGP = 0, passing = 0, counted = 0;
+  g.subjects.forEach(s => {
+    if (s.credits === 0) return;
+    const f = getFinal(s);
+    const pts = getPoints(f);
+    totalGP += pts * s.credits;
+    counted++;
+    if (pts > 0) passing++;
+  });
+  const sgpa = g.totalCredits > 0 ? (totalGP / g.totalCredits) : 0;
+  document.getElementById('sgpa-val').textContent    = totalGP > 0 ? sgpa.toFixed(2) : '—';
+  document.getElementById('credits-val').textContent = g.totalCredits;
+  document.getElementById('gp-val').textContent      = totalGP > 0 ? totalGP : '—';
+  document.getElementById('pass-val').textContent    = counted > 0 ? passing + ' / ' + counted : '—';
+  updateChart();
+}
+
+function updateFinalBadge(subj) {
+  const el = document.getElementById('badge-' + subj.id);
+  if (!el) return;
+  const f = getFinal(subj);
+  const pts = getPoints(f);
+  let cls = 'score-badge';
+  if (subj.credits === 0) cls += ' na';
+  else if (pts === 0) cls += ' fail';
+  else if (pts >= 7) cls += ' pass';
+  el.className = cls;
+  el.textContent = f.toFixed(1) + ' / 100';
+}
+
+function syncSee(subjId, val) {
+  let v = Math.min(100, Math.max(0, parseFloat(val) || 0));
+  const inp = document.getElementById('see-inp-' + subjId);
+  const sld = document.getElementById('see-sld-' + subjId);
+  if (inp) inp.value = v;
+  if (sld) sld.value = v;
+  marks[subjId + '_see'] = v;
+  const subj = GROUPS[currentGroup].subjects.find(s => s.id === subjId);
+  if (subj) updateFinalBadge(subj);
+  updateBanner();
+}
+
+function setMark(id, type, val) {
+  marks[id + '_' + type] = Math.min(100, Math.max(0, parseFloat(val) || 0));
+  const subj = GROUPS[currentGroup].subjects.find(s => s.id === id);
+  if (subj) updateFinalBadge(subj);
+  updateBanner();
+}
+
+function renderTable() {
+  const g = GROUPS[currentGroup];
+  let html = `<table>
+    <thead>
+      <tr>
+        <th style="min-width:190px">Subject</th>
+        <th>CE Marks</th>
+        <th>LPW Marks</th>
+        <th>Expected SEE</th>
+        <th>Final Score</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  g.subjects.forEach(s => {
+    const ceVal  = marks[s.id + '_ce']  !== undefined ? marks[s.id + '_ce']  : '';
+    const lpwVal = marks[s.id + '_lpw'] !== undefined ? marks[s.id + '_lpw'] : '';
+    const seeVal = marks[s.id + '_see'] || 0;
+    const f = getFinal(s);
+    const pts = getPoints(f);
+
+    let badgeCls = 'score-badge';
+    if (s.credits === 0) badgeCls += ' na';
+    else if (pts === 0) badgeCls += ' fail';
+    else if (pts >= 7) badgeCls += ' pass';
+
+    // CE weights display
+    const wStr = [
+      s.ce  > 0 ? 'CE:' + s.ce  : '',
+      s.lpw > 0 ? 'LPW:' + s.lpw : '',
+      s.see > 0 ? 'SEE:' + s.see : '',
+    ].filter(Boolean).join(' · ');
+
+    const lpwCell = s.lpw > 0
+      ? `<input type="number" id="lpw-${s.id}" min="0" max="100" step="1" value="${lpwVal}" oninput="setMark('${s.id}','lpw',this.value)" placeholder="0–100">`
+      : `<span class="na-text">N/A</span>`;
+
+    let seeCell;
+    if (s.noSee) {
+      seeCell = `<span class="no-see-text">No SEE exam</span>`;
+    } else {
+      seeCell = `<div class="see-cell">
+        <input type="number" id="see-inp-${s.id}" min="0" max="100" step="1" value="${seeVal}" oninput="syncSee('${s.id}', this.value)" placeholder="0–100">
+        <input type="range" id="see-sld-${s.id}" min="0" max="100" step="1" value="${seeVal}" oninput="syncSee('${s.id}', this.value)">
+      </div>`;
+    }
+
+    html += `<tr${s.supplementary ? ' class="yoga-row"' : ''}>
+      <td>
+        <div class="subj-name">${s.name}${s.supplementary ? '<span class="supp-badge">Supplementary · 0 cr</span>' : ''}</div>
+        <div class="subj-meta">${s.credits} cr &nbsp;|&nbsp; ${wStr}</div>
+      </td>
+      <td><input type="number" id="ce-${s.id}" min="0" max="100" step="1" value="${ceVal}" oninput="setMark('${s.id}','ce',this.value)" placeholder="0–100"></td>
+      <td>${lpwCell}</td>
+      <td>${seeCell}</td>
+      <td><span id="badge-${s.id}" class="${badgeCls}">${f.toFixed(1)} / 100</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('table-wrap').innerHTML = html;
+}
+
+function buildChart() {
+  const ctx = document.getElementById('sgpaChart').getContext('2d');
+  const g = GROUPS[currentGroup];
+  const labels = [], data = [];
+  for (let see = 0; see <= 100; see += 2) {
+    labels.push(see);
+    data.push(parseFloat(calcSGPA(g.subjects, g.totalCredits, see).toFixed(2)));
+  }
+  if (chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'SGPA',
+        data,
+        borderColor: '#185FA5',
+        backgroundColor: 'rgba(55,138,221,0.07)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#185FA5',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          titleColor: '#9e9e9e',
+          bodyColor: '#ffffff',
+          padding: 10,
+          cornerRadius: 8,
+          callbacks: {
+            title: items => 'SEE Score: ' + items[0].label,
+            label: items => 'SGPA: ' + items[0].parsed.y.toFixed(2),
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Global SEE Score (0 – 100)', color: '#9e9e9e', font: { size: 12, family: 'DM Sans' } },
+          grid: { color: 'rgba(0,0,0,0.04)' },
+          ticks: { stepSize: 10, color: '#9e9e9e', font: { family: 'DM Mono', size: 11 } },
+          border: { color: 'rgba(0,0,0,0.08)' }
+        },
+        y: {
+          min: 0, max: 10,
+          title: { display: true, text: 'SGPA', color: '#9e9e9e', font: { size: 12, family: 'DM Sans' } },
+          grid: { color: 'rgba(0,0,0,0.04)' },
+          ticks: { stepSize: 1, color: '#9e9e9e', font: { family: 'DM Mono', size: 11 } },
+          border: { color: 'rgba(0,0,0,0.08)' }
+        }
+      }
+    }
+  });
+}
+
+function updateChart() {
+  if (!chart) return;
+  const g = GROUPS[currentGroup];
+  const data = [];
+  for (let see = 0; see <= 100; see += 2) {
+    data.push(parseFloat(calcSGPA(g.subjects, g.totalCredits, see).toFixed(2)));
+  }
+  chart.data.datasets[0].data = data;
+  chart.update('none');
+}
+
+function setGroup(g) {
+  currentGroup = g;
+  document.getElementById('btn1').className = 'group-btn' + (g === 1 ? ' active' : '');
+  document.getElementById('btn2').className = 'group-btn' + (g === 2 ? ' active' : '');
+  renderTable();
+  updateBanner();
+  buildChart();
+}
+
+// Init
+setGroup(1);
+</script>
+</body>
+</html>
