@@ -58,10 +58,7 @@
     margin-bottom: 1.75rem;
   }
 
-  .header-left {
-    flex: 1 1 320px;
-    min-width: 0;
-  }
+  .header-left { flex: 1 1 320px; min-width: 0; }
 
   .header-left h1 {
     font-size: clamp(1.9rem, 3.8vw, 3rem);
@@ -95,6 +92,44 @@
     text-transform: uppercase;
     backdrop-filter: blur(8px);
   }
+
+  /* ── Save indicator ── */
+  .save-toast {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .03em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  .save-toast.show { opacity: 1; }
+  .save-toast svg { width: 12px; height: 12px; }
+
+  .clear-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid var(--border-md);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-left: 8px;
+  }
+  .clear-btn:hover { background: var(--red-light); color: var(--red); border-color: transparent; }
 
   /* ── Group Toggle ── */
   .group-toggle {
@@ -176,10 +211,7 @@
     box-shadow: var(--shadow-sm);
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+  table { width: 100%; border-collapse: collapse; }
 
   thead tr {
     background: var(--surface2);
@@ -204,31 +236,13 @@
   }
 
   tr:last-child td { border-bottom: none; }
-
   tbody tr:hover { background: #fafaf9; }
-
   .mobile-field-label { display: none; }
 
-  .subject-main,
-  .ce-cell,
-  .lpw-cell,
-  .see-col,
-  .score-col {
-    position: relative;
-  }
+  .subject-main, .ce-cell, .lpw-cell, .see-col, .score-col { position: relative; }
 
-  .subj-name {
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--text);
-  }
-
-  .subj-meta {
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
-  }
+  .subj-name { font-weight: 500; font-size: 13px; color: var(--text); }
+  .subj-meta { font-size: 11px; color: var(--text-faint); margin-top: 2px; font-family: 'DM Mono', monospace; }
 
   .supp-badge {
     display: inline-block;
@@ -286,15 +300,12 @@
   }
 
   input[type=range]::-webkit-slider-runnable-track {
-    height: 4px;
-    border-radius: 999px;
-    background: transparent;
+    height: 4px; border-radius: 999px; background: transparent;
   }
 
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     border-radius: 50%;
     background: var(--blue);
     border: 2px solid white;
@@ -303,21 +314,15 @@
   }
 
   input[type=range]::-moz-range-track {
-    height: 4px;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
+    height: 4px; border: none; border-radius: 999px; background: transparent;
   }
 
   input[type=range]::-moz-range-progress {
-    height: 4px;
-    border-radius: 999px;
-    background: var(--blue);
+    height: 4px; border-radius: 999px; background: var(--blue);
   }
 
   input[type=range]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     border-radius: 50%;
     background: var(--blue);
     border: 2px solid white;
@@ -344,16 +349,8 @@
   .score-badge.na   { background: var(--surface2); color: var(--text-faint); }
   .score-badge.pass { background: var(--green-light); color: var(--green); }
 
-  .no-see-text {
-    font-size: 11px;
-    color: var(--text-faint);
-    font-style: italic;
-  }
-
-  .na-text {
-    font-size: 12px;
-    color: var(--text-faint);
-  }
+  .no-see-text { font-size: 11px; color: var(--text-faint); font-style: italic; }
+  .na-text { font-size: 12px; color: var(--text-faint); }
 
   /* ── Chart ── */
   .chart-card {
@@ -367,16 +364,10 @@
   .chart-card-header { margin-bottom: 1.25rem; }
 
   .chart-card-header h2 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
+    font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px;
   }
 
-  .chart-card-header p {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
+  .chart-card-header p { font-size: 12px; color: var(--text-muted); }
 
   /* ── Footer ── */
   .footer {
@@ -389,303 +380,64 @@
 
   /* ── Responsive ── */
   @media (max-width: 960px) {
-    .page {
-      width: min(100%, calc(100% - 1.5rem));
-    }
-
-    .header {
-      flex-wrap: wrap;
-    }
-
-    .group-toggle {
-      flex-basis: 100%;
-    }
-
-    .metrics {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .page { width: min(100%, calc(100% - 1.5rem)); }
+    .header { flex-wrap: wrap; }
+    .group-toggle { flex-basis: 100%; }
+    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 720px) {
-    .page {
-      width: min(100%, calc(100% - 1rem));
-      padding: 1rem 0 3rem;
-    }
-
-    .header {
-      align-items: stretch;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .header-left h1 {
-      max-width: none;
-    }
-
-    .group-toggle {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .group-btn {
-      width: 100%;
-      text-align: left;
-      line-height: 1.35;
-    }
-
-    .metrics {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 1.25rem;
-    }
-
-    .metric {
-      padding: 0.95rem 0.95rem 0.9rem;
-    }
-
-    .table-wrap {
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      overflow: visible;
-    }
-
-    table,
-    thead,
-    tbody,
-    tr,
-    th,
-    td {
-      display: block;
-      width: 100%;
-    }
-
-    thead {
-      display: none;
-    }
-
-    tbody {
-      display: grid;
-      gap: 12px;
-    }
-
-    tbody tr {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    tbody tr:hover {
-      background: var(--surface);
-    }
-
-    td {
-      border: none;
-      padding: 0;
-    }
-
-    .mobile-field-label {
-      display: block;
-      margin-bottom: 0.45rem;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--text-faint);
-    }
-
-    tbody tr {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.75rem;
-      align-items: start;
-    }
-
-    .subject-main {
-      grid-column: 1 / -1;
-      margin-bottom: 0.15rem;
-    }
-
-    .subject-main .subj-meta {
-      max-width: 90%;
-    }
-
-    .score-col {
-      grid-column: 1 / -1;
-      margin-top: 0;
-    }
-
-    .score-col .mobile-field-label {
-      display: none;
-    }
-
-    .subj-name {
-      font-size: 16px;
-      line-height: 1.35;
-    }
-
-    .subj-meta {
-      margin-top: 0.3rem;
-      line-height: 1.5;
-      white-space: normal;
-    }
-
-    .supp-badge {
-      margin-left: 0;
-      margin-top: 0.5rem;
-    }
-
-    input[type=number] {
-      width: 100%;
-      text-align: left;
-      padding: 0.8rem 0.85rem;
-      font-size: 14px;
-      border-radius: 12px;
-      background: #fcfcfb;
-    }
-
-    .see-cell {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.8rem;
-    }
-
-    .ce-cell,
-    .lpw-cell,
-    .see-col {
-      padding: 0.8rem;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #fcfcfb;
-    }
-
-    .na-text,
-    .no-see-text {
-      display: inline-block;
-      padding: 0.8rem 0;
-      font-size: 12px;
-    }
-
-    .see-col {
-      background:
-        linear-gradient(180deg, rgba(24,95,165,0.04) 0%, rgba(24,95,165,0.01) 100%),
-        #fcfcfb;
-    }
-
-    .see-col .mobile-field-label {
-      margin-bottom: 0.55rem;
-    }
-
-    .see-col input[type=number] {
-      background: #ffffff;
-    }
-
-    .see-col input[type=range] {
-      height: 12px;
-      padding: 0;
-      border: none;
-      background:
-        linear-gradient(90deg, var(--blue) 0%, var(--blue) var(--range-fill, 0%), #dbe6f1 var(--range-fill, 0%), #dbe6f1 100%);
-      border-radius: 999px;
-      box-shadow: inset 0 0 0 1px rgba(24,95,165,0.08);
-    }
-
-    .see-col input[type=range]::-webkit-slider-runnable-track {
-      height: 12px;
-      border-radius: 999px;
-      background: transparent;
-    }
-
-    .see-col input[type=range]::-webkit-slider-thumb {
-      width: 22px;
-      height: 22px;
-      margin-top: -5px;
-      border: 3px solid #ffffff;
-      background: var(--blue);
-      box-shadow: 0 4px 14px rgba(24,95,165,0.28);
-    }
-
-    .see-col input[type=range]::-moz-range-track {
-      height: 12px;
-      border-radius: 999px;
-      background: #dbe6f1;
-    }
-
-    .see-col input[type=range]::-moz-range-progress {
-      height: 12px;
-      border-radius: 999px;
-      background: var(--blue);
-    }
-
-    .see-col input[type=range]::-moz-range-thumb {
-      width: 22px;
-      height: 22px;
-      border: 3px solid #ffffff;
-      background: var(--blue);
-      box-shadow: 0 4px 14px rgba(24,95,165,0.28);
-    }
-
-    .score-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-width: 0;
-      padding: 0.85rem 0.9rem;
-      font-size: 13px;
-      border-radius: 12px;
-    }
-
-    .chart-card {
-      padding: 1rem;
-    }
-
-    .chart-card-header {
-      margin-bottom: 1rem;
-    }
-
-    .chart-card-header h2 {
-      font-size: 14px;
-    }
-
-    .chart-card-header p {
-      font-size: 11px;
-    }
-
-    .footer {
-      margin-top: 1.75rem;
-      font-size: 11px;
-    }
+    .page { width: min(100%, calc(100% - 1rem)); padding: 1rem 0 3rem; }
+    .header { align-items: stretch; gap: 1rem; margin-bottom: 1.25rem; }
+    .header-left h1 { max-width: none; }
+    .group-toggle { flex-direction: column; width: 100%; }
+    .group-btn { width: 100%; text-align: left; line-height: 1.35; }
+    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+    .metric { padding: 0.95rem 0.95rem 0.9rem; }
+    .table-wrap { background: transparent; border: none; box-shadow: none; overflow: visible; }
+    table, thead, tbody, tr, th, td { display: block; width: 100%; }
+    thead { display: none; }
+    tbody { display: grid; gap: 12px; }
+    tbody tr { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem; box-shadow: var(--shadow-sm); }
+    tbody tr:hover { background: var(--surface); }
+    td { border: none; padding: 0; }
+    .mobile-field-label { display: block; margin-bottom: 0.45rem; font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text-faint); }
+    tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; align-items: start; }
+    .subject-main { grid-column: 1 / -1; margin-bottom: 0.15rem; }
+    .subject-main .subj-meta { max-width: 90%; }
+    .score-col { grid-column: 1 / -1; margin-top: 0; }
+    .score-col .mobile-field-label { display: none; }
+    .subj-name { font-size: 16px; line-height: 1.35; }
+    .subj-meta { margin-top: 0.3rem; line-height: 1.5; white-space: normal; }
+    .supp-badge { margin-left: 0; margin-top: 0.5rem; }
+    input[type=number] { width: 100%; text-align: left; padding: 0.8rem 0.85rem; font-size: 14px; border-radius: 12px; background: #fcfcfb; }
+    .see-cell { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+    .ce-cell, .lpw-cell, .see-col { padding: 0.8rem; border: 1px solid var(--border); border-radius: 12px; background: #fcfcfb; }
+    .na-text, .no-see-text { display: inline-block; padding: 0.8rem 0; font-size: 12px; }
+    .see-col { background: linear-gradient(180deg, rgba(24,95,165,0.04) 0%, rgba(24,95,165,0.01) 100%), #fcfcfb; }
+    .see-col .mobile-field-label { margin-bottom: 0.55rem; }
+    .see-col input[type=number] { background: #ffffff; }
+    .see-col input[type=range] { height: 12px; padding: 0; border: none; background: linear-gradient(90deg, var(--blue) 0%, var(--blue) var(--range-fill, 0%), #dbe6f1 var(--range-fill, 0%), #dbe6f1 100%); border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(24,95,165,0.08); }
+    .see-col input[type=range]::-webkit-slider-runnable-track { height: 12px; border-radius: 999px; background: transparent; }
+    .see-col input[type=range]::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: -5px; border: 3px solid #ffffff; background: var(--blue); box-shadow: 0 4px 14px rgba(24,95,165,0.28); }
+    .see-col input[type=range]::-moz-range-track { height: 12px; border-radius: 999px; background: #dbe6f1; }
+    .see-col input[type=range]::-moz-range-progress { height: 12px; border-radius: 999px; background: var(--blue); }
+    .see-col input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border: 3px solid #ffffff; background: var(--blue); box-shadow: 0 4px 14px rgba(24,95,165,0.28); }
+    .score-badge { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-width: 0; padding: 0.85rem 0.9rem; font-size: 13px; border-radius: 12px; }
+    .chart-card { padding: 1rem; }
+    .chart-card-header { margin-bottom: 1rem; }
+    .chart-card-header h2 { font-size: 14px; }
+    .chart-card-header p { font-size: 11px; }
+    .footer { margin-top: 1.75rem; font-size: 11px; }
   }
 
   @media (max-width: 420px) {
-    .page {
-      width: min(100%, calc(100% - 0.75rem));
-    }
-
-    .header-kicker {
-      margin-bottom: 0.65rem;
-      font-size: 10px;
-    }
-
-    .header-left p {
-      max-width: none;
-    }
-
-    .metrics {
-      grid-template-columns: 1fr;
-    }
-
-    tbody tr {
-      padding: 0.9rem;
-    }
-
-    .subj-meta {
-      font-size: 10px;
-      max-width: none;
-    }
+    .page { width: min(100%, calc(100% - 0.75rem)); }
+    .header-kicker { margin-bottom: 0.65rem; font-size: 10px; }
+    .header-left p { max-width: none; }
+    .metrics { grid-template-columns: 1fr; }
+    tbody tr { padding: 0.9rem; }
+    .subj-meta { font-size: 10px; max-width: none; }
   }
 </style>
 </head>
@@ -695,8 +447,20 @@
   <!-- Header -->
   <div class="header">
     <div class="header-left">
-      <div class="header-kicker">Grade Planner</div>
-      <h1>SGPA Calculator</h1><p>(Best in Desktop view)</p>
+      <div class="header-kicker">
+        Grade Planner
+        <span class="save-toast" id="save-toast">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/>
+          </svg>
+          Saved
+        </span>
+        <button class="clear-btn" onclick="clearStorage()" title="Clear all saved data">
+          ✕ Reset
+        </button>
+      </div>
+      <h1>SGPA Calculator</h1>
+      <p style="font-size:12px;color:var(--text-faint);margin-top:0.2rem;margin-bottom:0.4rem;">Best in Desktop view &nbsp;·&nbsp; Your marks are auto-saved locally</p>
       <p>Semester Grade Point Average — enter your marks to calculate your result</p>
     </div>
     <div class="group-toggle">
@@ -737,50 +501,99 @@
     <canvas id="sgpaChart" height="240"></canvas>
   </div>
 
-  <div class="footer">Built by Vaibhav Yadav· Grading scale: ≥90=10pts · ≥80=9pts · ≥70=8pts · ≥60=7pts · ≥50=6pts · &lt;50=0pts</div>
+  <div class="footer">Built by Vaibhav Yadav &nbsp;·&nbsp; Grading scale: ≥90=10pts · ≥80=9pts · ≥70=8pts · ≥60=7pts · ≥50=6pts · &lt;50=0pts</div>
 </div>
 
 <script>
+// ─── Data ───────────────────────────────────────────────────────────────────
 const GROUPS = {
   1: {
     totalCredits: 18,
     subjects: [
-      {id:'math1', name:'Mathematics I',         credits:3, ce:.5,  lpw:0,   see:.5},
-      {id:'phy',   name:'Physics',               credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'env',   name:'Environmental Science', credits:3, ce:.5,  lpw:0,   see:.5},
-      {id:'aiml',  name:'Introduction to AI & ML',credits:3,ce:.25, lpw:.25, see:.5},
-      {id:'elec',  name:'Electrical Science',    credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'geng',  name:'General English',       credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'yoga',  name:'Yoga',                  credits:0, ce:.5,  lpw:.5,  see:0, supplementary:true},
+      {id:'math1', name:'Mathematics I',          credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'phy',   name:'Physics',                credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'env',   name:'Environmental Science',  credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'aiml',  name:'Intro to AI & ML / CP',credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'elec',  name:'Electrical Science',     credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'geng',  name:'General English',        credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'yoga',  name:'Yoga',                   credits:0, ce:.5,  lpw:.5,  see:0, supplementary:true},
     ]
   },
   2: {
     totalCredits: 21,
     subjects: [
-      {id:'math2', name:'Mathematics II',                       credits:3, ce:.5,  lpw:0,   see:.5},
-      {id:'chem',  name:'Chemistry / Intro to Web Programming', credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'draw',  name:'Engineering Drawing & Workshop',       credits:3, ce:.5,  lpw:.5,  see:0,  noSee:true},
-      {id:'wcom',  name:'Written Communication',                credits:3, ce:.5,  lpw:0,   see:.5},
-      {id:'aiml2', name:'Introduction to AI & ML',              credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'stat',  name:'Statistics',                           credits:3, ce:.25, lpw:.25, see:.5},
-      {id:'ci',    name:'Contemporary India',                   credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'math2', name:'Mathematics II',                        credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'chem',  name:'Chemistry / Intro to Web Programming',  credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'draw',  name:'Engineering Drawing & Workshop',        credits:3, ce:.5,  lpw:.5,  see:0,  noSee:true},
+      {id:'wcom',  name:'Written Communication',                 credits:3, ce:.5,  lpw:0,   see:.5},
+      {id:'aiml2', name:'Introduction to AI & ML',               credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'stat',  name:'Statistics',                            credits:3, ce:.25, lpw:.25, see:.5},
+      {id:'ci',    name:'Contemporary India',                    credits:3, ce:.5,  lpw:0,   see:.5},
     ]
   }
 };
 
+// ─── State ──────────────────────────────────────────────────────────────────
+const STORAGE_MARKS = 'sgpa_marks_v1';
+const STORAGE_GROUP = 'sgpa_group_v1';
+
 let currentGroup = 1;
 let marks = {};
 let chart = null;
+let saveTimer = null;
 
-function getRangeFill(val) {
-  const num = Math.min(100, Math.max(0, parseFloat(val) || 0));
-  return num + '%';
+// ─── Storage ─────────────────────────────────────────────────────────────────
+function saveToStorage() {
+  try {
+    localStorage.setItem(STORAGE_MARKS, JSON.stringify(marks));
+    localStorage.setItem(STORAGE_GROUP, currentGroup);
+    flashSaved();
+  } catch(e) {
+    // localStorage unavailable (private mode / blocked)
+  }
 }
 
-function updateRangeVisual(subjId, val) {
-  const sld = document.getElementById('see-sld-' + subjId);
-  if (!sld) return;
-  sld.style.setProperty('--range-fill', getRangeFill(val));
+function loadFromStorage() {
+  try {
+    const savedMarks = localStorage.getItem(STORAGE_MARKS);
+    const savedGroup = localStorage.getItem(STORAGE_GROUP);
+    if (savedMarks) marks = JSON.parse(savedMarks);
+    if (savedGroup) currentGroup = parseInt(savedGroup, 10);
+  } catch(e) {
+    marks = {};
+    currentGroup = 1;
+  }
+}
+
+function clearStorage() {
+  if (!confirm('Clear all saved marks and reset? This cannot be undone.')) return;
+  try {
+    localStorage.removeItem(STORAGE_MARKS);
+    localStorage.removeItem(STORAGE_GROUP);
+  } catch(e) {}
+  marks = {};
+  currentGroup = 1;
+  setGroup(1);
+}
+
+// Debounced save — avoids hammering storage while slider is dragged
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToStorage, 400);
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer = null;
+function flashSaved() {
+  const el = document.getElementById('save-toast');
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function getRangeFill(val) {
+  return Math.min(100, Math.max(0, parseFloat(val) || 0)) + '%';
 }
 
 function getPoints(score) {
@@ -812,6 +625,7 @@ function calcSGPA(subjects, totalCredits, globalSee) {
   return totalCredits > 0 ? totalGP / totalCredits : 0;
 }
 
+// ─── Banner ───────────────────────────────────────────────────────────────────
 function updateBanner() {
   const g = GROUPS[currentGroup];
   let totalGP = 0, passing = 0, counted = 0;
@@ -831,6 +645,7 @@ function updateBanner() {
   updateChart();
 }
 
+// ─── Badge ────────────────────────────────────────────────────────────────────
 function updateFinalBadge(subj) {
   const el = document.getElementById('badge-' + subj.id);
   if (!el) return;
@@ -844,17 +659,18 @@ function updateFinalBadge(subj) {
   el.textContent = f.toFixed(1) + ' / 100';
 }
 
+// ─── Interactions ─────────────────────────────────────────────────────────────
 function syncSee(subjId, val) {
   let v = Math.min(100, Math.max(0, parseFloat(val) || 0));
   const inp = document.getElementById('see-inp-' + subjId);
   const sld = document.getElementById('see-sld-' + subjId);
   if (inp) inp.value = v;
-  if (sld) sld.value = v;
-  updateRangeVisual(subjId, v);
+  if (sld) { sld.value = v; sld.style.setProperty('--range-fill', getRangeFill(v)); }
   marks[subjId + '_see'] = v;
   const subj = GROUPS[currentGroup].subjects.find(s => s.id === subjId);
   if (subj) updateFinalBadge(subj);
   updateBanner();
+  scheduleSave();
 }
 
 function setMark(id, type, val) {
@@ -862,8 +678,10 @@ function setMark(id, type, val) {
   const subj = GROUPS[currentGroup].subjects.find(s => s.id === id);
   if (subj) updateFinalBadge(subj);
   updateBanner();
+  scheduleSave();
 }
 
+// ─── Render ───────────────────────────────────────────────────────────────────
 function renderTable() {
   const g = GROUPS[currentGroup];
   let html = `<table>
@@ -890,9 +708,8 @@ function renderTable() {
     else if (pts === 0) badgeCls += ' fail';
     else if (pts >= 7) badgeCls += ' pass';
 
-    // CE weights display
     const wStr = [
-      s.ce  > 0 ? 'CE:' + s.ce  : '',
+      s.ce  > 0 ? 'CE:'  + s.ce  : '',
       s.lpw > 0 ? 'LPW:' + s.lpw : '',
       s.see > 0 ? 'SEE:' + s.see : '',
     ].filter(Boolean).join(' · ');
@@ -907,7 +724,7 @@ function renderTable() {
     } else {
       seeCell = `<div class="see-cell">
         <input type="number" id="see-inp-${s.id}" min="0" max="100" step="1" value="${seeVal}" oninput="syncSee('${s.id}', this.value)" placeholder="0–100">
-        <input type="range" id="see-sld-${s.id}" min="0" max="100" step="1" value="${seeVal}" style="--range-fill:${getRangeFill(seeVal)}" oninput="syncSee('${s.id}', this.value)">
+        <input type="range"  id="see-sld-${s.id}" min="0" max="100" step="1" value="${seeVal}" style="--range-fill:${getRangeFill(seeVal)}" oninput="syncSee('${s.id}', this.value)">
       </div>`;
     }
 
@@ -939,6 +756,7 @@ function renderTable() {
   document.getElementById('table-wrap').innerHTML = html;
 }
 
+// ─── Chart ────────────────────────────────────────────────────────────────────
 function buildChart() {
   const ctx = document.getElementById('sgpaChart').getContext('2d');
   const g = GROUPS[currentGroup];
@@ -1012,6 +830,7 @@ function updateChart() {
   chart.update('none');
 }
 
+// ─── Group Switch ─────────────────────────────────────────────────────────────
 function setGroup(g) {
   currentGroup = g;
   document.getElementById('btn1').className = 'group-btn' + (g === 1 ? ' active' : '');
@@ -1019,10 +838,12 @@ function setGroup(g) {
   renderTable();
   updateBanner();
   buildChart();
+  scheduleSave();
 }
 
-// Init
-setGroup(1);
+// ─── Init ─────────────────────────────────────────────────────────────────────
+loadFromStorage();
+setGroup(currentGroup);
 </script>
 </body>
 </html>
